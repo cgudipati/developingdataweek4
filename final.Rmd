@@ -1,0 +1,59 @@
+---
+title: "final"
+author: "Chandrasekhar Gudipati"
+date: "11/4/2020"
+output:
+  html_document:
+    df_print: paged
+runtime: shiny
+---
+I'll now show you my work of grandeur. The first thing is that this has twoo parrts. Chandrasekhar's Server and Chandrasekhar's UI. I then take the two to make Chandrasekhar's Shiny app. This file has both and how I fused them for Chandrasekhar's app.
+This is the link for my app btw:
+https://cgudipati.shinyapps.io/Submission/
+Do enjoy!!!!!
+
+### Chandrasekhar's Server Side
+```{r}
+library(plotly)
+library(shiny)
+mdc <- mtcars
+mdc$am <- factor(mdc$am, labels = c("Automatic", "Manual"))
+shinyServer(function(input, output) {
+  
+  ftc <- reactive({
+    paste("Milespgc vs ", input$variable)
+  })
+  
+  output$caption <- renderText({
+    ftc()
+  })
+  output$mpgPlot <- renderPlot({
+    ggplot(mdc, aes_string(y=input$variable, x="mpg")) + geom_point()
+  })
+  
+})
+```
+###Chandrasekhar's UI Side
+```{r}
+library(shiny)
+shinyUI(fluidPage(
+  
+  titlePanel("Chandrasekhar's Dataset - Miles per Gallon"),
+  
+  sidebarPanel(
+    
+    selectInput("variable", "Variable:", 
+                c("Chandrasekhar's Cyl" = "cyl",
+                  "Chandrasekhar's Automatic" = "am",
+                  "Gears of Chandrasekhar" = "gear"))
+  ),
+  
+  mainPanel(
+    h2(textOutput("caption")),
+    # Welcome to Chandrasekhar's Graph app.
+
+    plotOutput("mpgPlot")
+  )
+))
+```
+Et voila!!!! You have just witnessed Chandrasekhar's Shiny app presentation!!!
